@@ -1,0 +1,49 @@
+@startuml
+!define primary_key(x) <b><color:#b8861b><&key></color> x</b>
+!define foreign_key(x) <color:#aaaaaa><&key></color> x
+!define column(x) <color:#efefef><&media-record></color> x
+!define table(x) entity x << (T, white) >>
+
+table( weight )
+{
+    primary_key( id ): INT
+    column( jenis ): ENUM(benefit, cost)
+    column( bobot ): INT
+}
+
+table( kriteria )
+{
+    primary_key( id ): INT
+    foreign_key( id_weight ): INT
+    column( nama ): VARCHAR
+}
+
+table( bobot_kriteria )
+{
+    primary_key(id): INT
+    foreign_key(id_kriteria): INT
+    column( nilai ): INT
+    column( keterangan ): VARCHAR
+    column( bobot ): INT
+}
+
+table( alternatif )
+{
+    primary_key( id ): INT
+    column( nama ): VARCHAR
+}
+
+table( alternatif_kriteria )
+{
+    primary_key(id): INT
+    foreign_key(id_alternatif): INT
+    foreign_key(id_kriteria): INT
+    foreign_key(id_bobot_kriter): INT
+}
+
+weight "1" ||--|{ "m" kriteria
+
+kriteria "1" ||--|{ "m" bobot_kriteria
+
+alternatif "1" ||--|{ "m" alternatif_kriteria
+@enduml
